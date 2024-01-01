@@ -2,10 +2,19 @@ package com.example;
 
 import static org.junit.Assert.*;
 
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class AppTest {
+
+    public static CabInvoice cabInvoice;
+
+    @BeforeAll
+    public static void initialization() {
+        cabInvoice = new CabInvoice();
+    }
 
     @ParameterizedTest
     @CsvSource({
@@ -17,8 +26,16 @@ public class AppTest {
     })
     public void fareTest(double distance, double time, double expected) {
         Ride ride = new Ride(distance, time);
-        double fare = ride.totalFare();
+        double fare = cabInvoice.calculateFare(ride);
         assertEquals(expected, fare, 0);
+    }
+
+    @Test
+    public void aggTotalTest() {
+        CabInvoice cabInvoice = new CabInvoice();
+        Ride[] rides = new Ride[] { new Ride(5.0, 10.0), new Ride(2.0, 6.0), new Ride(0.2, 1.0) };
+        double fare = cabInvoice.total(rides);
+        assertEquals(91.0, fare, 0);
     }
 
 }
