@@ -16,4 +16,16 @@ public class CabInvoice {
         }
         return sum;
     }
+
+    public int noOfRides(Ride[] rides) {
+        return rides.length;
+    }
+
+    public double avgFare(Ride[] ride) {
+        return total(ride) / (double) noOfRides(ride);
+    }
+
+    public InvoiceReport getReport(Ride[] rides) {
+        return new InvoiceReport(total(rides), noOfRides(rides), avgFare(rides));
+    }
 }

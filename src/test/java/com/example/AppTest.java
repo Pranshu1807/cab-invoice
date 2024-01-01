@@ -38,4 +38,15 @@ public class AppTest {
         assertEquals(91.0, fare, 0);
     }
 
+    @Test
+    public void enhancedInvoice() {
+        CabInvoice cabInvoice = new CabInvoice();
+        Ride[] rides = new Ride[] { new Ride(5.0, 10.0), new Ride(2.0, 5.0), new Ride(0.2, 1.0), new Ride(3, 10) };
+        InvoiceReport Calculated = cabInvoice.getReport(rides);
+        InvoiceReport Expected = new InvoiceReport(130.0, 4, 32.5);
+
+        assertEquals(true, Calculated.totalFare == Expected.totalFare && Calculated.noOfRides == Expected.noOfRides
+                && Calculated.avgFare == Expected.avgFare);
+    }
+
 }
