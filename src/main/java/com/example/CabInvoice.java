@@ -5,12 +5,17 @@ import java.util.HashMap;
 
 public class CabInvoice {
 
-    public static double pricePerKm = 10.0, perPerMin = 1.0, minFare = 5.0;
+    public static double pricePerKm = 10.0, perPerMin = 1.0, minFare = 5.0, perPerMinPrem = 2.0, pricePerKmPrem = 15.0,
+            minFarePrem = 20.0;
     public static HashMap<String, ArrayList<Ride>> rideRepo = new HashMap<>();
 
     public double calculateFare(Ride ride) {
-        double totalFare = ride.distance * pricePerKm + ride.time * perPerMin;
-        return Math.max(totalFare, minFare);
+        double totalFare;
+        if (ride.premimum == false)
+            totalFare = Math.max(ride.distance * pricePerKm + ride.time * perPerMin, minFare);
+        else
+            totalFare = Math.max(ride.distance * pricePerKmPrem + ride.time * perPerMinPrem, minFarePrem);
+        return totalFare;
     }
 
     public void addRide(String user, double distance, double time) {
@@ -18,6 +23,14 @@ public class CabInvoice {
             rideRepo.put(user, new ArrayList<Ride>());
         }
         Ride ride = new Ride(distance, time);
+        rideRepo.get(user).add(ride);
+    }
+
+    public void addRide(String user, double distance, double time, boolean premimum) {
+        if (!rideRepo.containsKey(user)) {
+            rideRepo.put(user, new ArrayList<Ride>());
+        }
+        Ride ride = new Ride(distance, time, premimum);
         rideRepo.get(user).add(ride);
     }
 
